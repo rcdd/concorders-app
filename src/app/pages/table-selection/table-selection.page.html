@@ -1,0 +1,28 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start" class="ion-padding-start">
+            <ion-button fill="outline" color="dark" (click)="navBack()">
+                <ion-icon slot="start" name="arrow-back"></ion-icon>
+                Voltar
+            </ion-button>
+        </ion-buttons>
+        <ion-title>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ng-container *ngIf="placesInUse?.length > 0">
+        <ion-item detail (click)="openTable(place)" *ngFor="let place of placesInUse">
+            <ion-label>{{ place.name }}</ion-label>
+        </ion-item>
+    </ng-container>
+    <ng-container *ngIf="!placesInUse || placesInUse.length == 0">
+        <ion-title class="ion-padding">
+            Mesa Vazia
+        </ion-title>
+    </ng-container>
+</ion-content>
+
+<ion-footer>
+    <ion-button (click)="newTable()" expand="full">Adicionar novo pedido</ion-button>
+</ion-footer>

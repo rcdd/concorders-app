@@ -1,0 +1,48 @@
+<ng-container *ngIf="utils.currentOrder">
+    <ion-header>
+        <ion-toolbar>
+            <ion-buttons slot="start" class="ion-padding-start">
+                <ion-button fill="outline" color="dark" (click)="navBack()">
+                    <ion-icon slot="start" name="arrow-back"></ion-icon>
+                    Voltar
+                </ion-button>
+            </ion-buttons>
+            <ion-title>
+                {{ utils.currentOrder.name }}
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+        <ion-tabs>
+            <ion-tab-bar slot="top">
+                <ion-tab-button tab="starters">
+                    <ion-icon name="wine"></ion-icon>
+                    <ion-label>Entradas</ion-label>
+                </ion-tab-button>
+
+                <ion-tab-button tab="dishes">
+                    <ion-icon name="restaurant"></ion-icon>
+                    <ion-label>Pratos</ion-label>
+                </ion-tab-button>
+
+                <ion-tab-button tab="drinks">
+                    <ion-icon name="beer"></ion-icon>
+                    <ion-label>Bebidas</ion-label>
+                </ion-tab-button>
+
+                <ion-tab-button tab="deserts">
+                    <ion-icon name="ice-cream"></ion-icon>
+                    <ion-label>Sobremesas</ion-label>
+                </ion-tab-button>
+            </ion-tab-bar>
+        </ion-tabs>
+    </ion-content>
+
+    <ion-footer>
+        <ion-toolbar>
+            <ion-button expand="full" color="success" (click)="sendOrder()">Enviar Pedido</ion-button>
+        </ion-toolbar>
+    </ion-footer>
+</ng-container>
+
