@@ -55,7 +55,6 @@ export class TableSelectionPage {
             }
             table.name = opt.name;
             table.peopleCount = opt.peopleCount;
-
             this.utils.currentOrder = table;
             if (!this.utils.currentOrder.request) {
                 this.utils.currentOrder.request = [];

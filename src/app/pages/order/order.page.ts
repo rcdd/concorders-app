@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { UtilsService } from '../../services/utils.service';
 import { NavController } from '@ionic/angular';
-import { RestService } from '../../services/rest.service';
+import { MenuFillableFields, RestService } from '../../services/rest.service';
 
 @Component({
     selector: 'app-order',
@@ -9,29 +9,33 @@ import { RestService } from '../../services/rest.service';
     styleUrls: ['order.page.scss'],
 })
 export class OrderPage implements OnInit {
+    @Output() menuActive: MenuFillableFields;
 
     constructor(private nav: NavController, private utils: UtilsService, private restService: RestService) {
     }
 
-    ngOnInit() {
-        if (!this.utils.currentOrder) {
-            this.navBack();
+    async ngOnInit() {
+        if (!this.utils.currentOrder || !this.utils.menuTypes) {
+            await this.navBack();
             return;
         }
-        // console.log('CurrentOrder', this.utils.currentOrder);
+        this.menuActive = this.utils.menus.filter(menu => menu.type.name === this.utils.menuTypes[0].name);
     }
 
-    navBack() {
-        this.nav.navigateBack('table-selection', {animated: true, animationDirection: 'back'});
+    async navBack() {
+        await this.nav.navigateBack('table-selection', {animated: true, animationDirection: 'back'});
+    }
+
+    segmentChanged(evt) {
+        this.menuActive = this.utils.menus.filter(menu => menu.type.name === evt.detail.value);
     }
 
     async sendOrder() {
-        this.utils.showLoading();
-
+        await this.utils.showLoading();
         if (this.utils.currentOrder.newOrder) {
-            this.newOrder();
+            await this.newOrder();
         } else {
-            this.updateOrder();
+            await this.updateOrder();
         }
     }
 
@@ -47,6 +51,7 @@ export class OrderPage implements OnInit {
     }
 
     async updateOrder() {
+        // console.log('updating request', this.utils.currentOrder.request);
         await this.restService.updateOrder(this.utils.currentOrder.id, this.utils.currentOrder.request).subscribe(async resp => {
             await this.utils.hideLoading();
             this.utils.currentOrder = {};

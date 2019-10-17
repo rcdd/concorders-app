@@ -1,17 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Storage } from '@ionic/storage';
-import { map } from 'rxjs/operators';
-import { log } from 'util';
-
-// Typescript custom enum for search types (optional)
-export enum SearchType {
-    all = '',
-    movie = 'movie',
-    series = 'series',
-    episode = 'episode'
-}
 
 export class OrderFillableFields {
     request: RequestItemFillableFields[];
@@ -20,9 +9,23 @@ export class OrderFillableFields {
 }
 
 export class RequestItemFillableFields {
-    name: string;
+    id: number;
+    menuItem: MenuFillableFields;
     amount: number;
-    price: number;
+}
+
+export class MenuTypeFillableFields {
+    id: number;
+    name: string;
+    menu: MenuFillableFields;
+    icon: string;
+}
+
+export class MenuFillableFields {
+    id: number;
+    name: string;
+    price: string;
+    type: MenuTypeFillableFields;
 }
 
 @Injectable({
@@ -73,4 +76,7 @@ export class RestService {
         return this.http.post(this.baseUrl + '/update-order', {orderId, requests});
     }
 
+    getMenuTypes(): any {
+        return this.http.get(this.baseUrl + '/get-menu-types');
+    }
 }

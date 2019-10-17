@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { UtilsService } from '../../services/utils.service';
+import { MenuFillableFields, RequestItemFillableFields } from '../../services/rest.service';
 
 @Component({
     selector: 'app-product-item',
@@ -7,20 +8,25 @@ import { UtilsService } from '../../services/utils.service';
     styleUrls: ['./product-item.component.scss'],
 })
 export class ProductItemComponent implements OnInit {
-    @Input() item;
+    @Input() item: MenuFillableFields;
+    @Output() privateItem: RequestItemFillableFields;
 
     constructor(private utils: UtilsService) {
     }
 
     ngOnInit() {
-        this.item = this.getItem() || JSON.parse(JSON.stringify(this.item));
-        if (!this.item.amount) {
-            this.item.amount = 0;
+        let item: RequestItemFillableFields = this.getItem();
+
+        if (!item) {
+            item = new RequestItemFillableFields();
+            item.menuItem = JSON.parse(JSON.stringify(this.item));
+            item.amount = 0;
         }
+        this.privateItem = item;
     }
 
     getItem() {
-        return this.utils.currentOrder.request.find(item => item.name === this.item.name);
+        return this.utils.currentOrder.request.find(item => item.menuItem.name === this.item.name);
     }
 
     addProduct() {
@@ -28,25 +34,19 @@ export class ProductItemComponent implements OnInit {
         if (item) {
             item.amount++;
         } else {
-            this.item.amount++;
-            this.utils.currentOrder.request.push(this.item);
+            this.privateItem.amount++;
+            this.utils.currentOrder.request.push(this.privateItem);
         }
     }
 
     removeProduct() {
-        if (this.item.amount === 0) {
+        if (this.privateItem.amount === 0) {
             return;
         }
         const item = this.getItem();
         if (!item) {
             return;
         }
-        this.item.amount--;
-        if (this.item.amount === 0) {
-            const index = this.utils.currentOrder.request.findIndex(it => it.id === this.item.id);
-            if (index > -1) {
-                this.utils.currentOrder.request.splice(index, 1);
-            }
-        }
+        this.privateItem.amount--;
     }
 }

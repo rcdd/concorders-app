@@ -1,8 +1,9 @@
-<ion-item lines="full" [class.isSelected]="item.amount > 0">
-    <ion-badge slot="start" color="light">{{item.amount || 0}}</ion-badge>
-    <ion-label>{{item.name}}</ion-label>
+<ion-item lines="full" [class.isSelected]="privateItem?.amount > 0">
+    <ion-badge slot="start" color="light">{{privateItem?.amount || 0}}</ion-badge>
+    <ion-label>{{privateItem?.menuItem.name}}</ion-label>
     <ion-buttons slot="end">
         <ion-icon class="ion-padding" name="add-circle-outline" size="large" (click)="addProduct()"></ion-icon>
-        <ion-icon class="ion-padding" name="remove-circle-outline" size="large" (click)="removeProduct()"></ion-icon>
+        <ion-icon class="ion-padding" name="remove-circle-outline" size="large"
+                  (click)="removeProduct()"></ion-icon>
     </ion-buttons>
 </ion-item>

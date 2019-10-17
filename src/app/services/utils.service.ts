@@ -9,6 +9,7 @@ export class UtilsService {
     currentTable;
     currentOrder;
     loading;
+    menuTypes;
 
     constructor(public loadingController: LoadingController) {
     }

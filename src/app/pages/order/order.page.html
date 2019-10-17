@@ -14,29 +14,17 @@
     </ion-header>
 
     <ion-content>
-        <ion-tabs>
-            <ion-tab-bar slot="top">
-                <ion-tab-button tab="starters">
-                    <ion-icon name="wine"></ion-icon>
-                    <ion-label>Entradas</ion-label>
-                </ion-tab-button>
+        <ion-toolbar>
+            <ion-segment scrollable color="primary" (ionChange)="segmentChanged($event)"
+                         [value]="utils.menuTypes[0].name">
+                <ion-segment-button *ngFor="let tab of utils.menuTypes" value="{{tab.name}}">
+                    <span *ngIf="tab.icon" class="mdi mdi-{{tab.icon}}"></span>
+                    {{tab.name}}
+                </ion-segment-button>
+            </ion-segment>
+        </ion-toolbar>
 
-                <ion-tab-button tab="dishes">
-                    <ion-icon name="restaurant"></ion-icon>
-                    <ion-label>Pratos</ion-label>
-                </ion-tab-button>
-
-                <ion-tab-button tab="drinks">
-                    <ion-icon name="beer"></ion-icon>
-                    <ion-label>Bebidas</ion-label>
-                </ion-tab-button>
-
-                <ion-tab-button tab="deserts">
-                    <ion-icon name="ice-cream"></ion-icon>
-                    <ion-label>Sobremesas</ion-label>
-                </ion-tab-button>
-            </ion-tab-bar>
-        </ion-tabs>
+        <app-product-item [item]="item" *ngFor="let item of menuActive"></app-product-item>
     </ion-content>
 
     <ion-footer>
